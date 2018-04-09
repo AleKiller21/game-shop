@@ -3132,7 +3132,7 @@
     justify-content: center;
     align-items: center;
     padding: 15px;
-    background: #e9faff;
+    background: #3F51B5;
   }
   
   .wrap-login100 {
@@ -3401,3 +3401,6 @@
     }
   }
   
+a {
+	text-decoration: none
+}
