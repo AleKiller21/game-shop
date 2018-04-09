@@ -1,31 +1,65 @@
 import React, { Component } from 'react'
 import Button from 'material-ui/Button'
 
+import apiService from '../../services/apiService';
+
 import '../../assets/css/login.css'
 
 class Login extends Component {
+  constructor () {
+	  	super();
+		this.state = {
+			email: '',
+			password: ''
+		};
+  }
+
+  onChangeUsername (e) {
+	  const email = e.target.value;
+	  this.setState({ email });
+  }
+
+  onChangePassword (e) {
+	  const password = e.target.value;
+	  this.setState({ password });
+  }
+
+  async doLogin(e) {
+	  e.preventDefault();
+	  
+	  const { email, password } = this.state;
+	  const body = { email, password };
+	  
+	  try {
+		const result = await apiService.sendRequest('/login', 'POST', body);
+		console.log(result);
+	  } catch (err) {
+		  console.log(err);
+	  }
+  }
+
   render () {
     return (
       <div className="limiter">
         <div className="container-login100">
           <div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
-            <form className="login100-form validate-form">
+            <form className="login100-form validate-form" onSubmit={e => this.doLogin(e)}>
               <span className="login100-form-title p-b-33">Account Login</span>
 
               <div className="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-                <input className="input100" type="text" name="email" placeholder="Email" />
+                <input className="input100" type="text" name="email" placeholder="Email" value={this.state.email} onChange={e => this.onChangeUsername(e)} />
                 <span className="focus-input100-1"></span>
                 <span className="focus-input100-2"></span>
               </div>
 
               <div className="wrap-input100 rs1 validate-input" data-validate="Password is required">
-                <input className="input100" type="password" name="pass" placeholder="Password" />
+                <input className="input100" type="password" name="pass" placeholder="Password" value={this.state.password} onChange={e => this.onChangePassword(e)} />
                 <span className="focus-input100-1"></span>
                 <span className="focus-input100-2"></span>
               </div>
 
               <div className="container-login100-form-btn m-t-20">
-                <Button size='large' className="container-login100-form-btn m-t-20" variant="raised" color="primary">Sign in</Button>
+                <Button type='submit' size='large' className="container-login100-form-btn m-t-20" variant="raised" color="primary">Sign in</Button>
               </div>
 
               <div className="text-center p-t-45 p-b-4">
