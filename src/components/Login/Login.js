@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Button from 'material-ui/Button'
 
 import apiService from '../../services/apiService';
+import stateService from '../../services/stateService';
 
 import '../../assets/css/login.css'
 
@@ -31,6 +32,7 @@ class Login extends Component {
 	  try {
 		const result = await apiService.sendRequest('/login', 'POST', body);
 		const { gamertag, token } = result.data.data;
+		stateService.getFunction('showNotification')('success', 'Success', `Welcome ${gamertag}`);
 
 		localStorage.setItem('token', token);
 		localStorage.setItem('gamertag', gamertag);
@@ -38,6 +40,7 @@ class Login extends Component {
 
 	  } catch (err) {
 		  console.log(err.response.data.message);
+		  stateService.getFunction('showNotification')('error', 'Invalid credentials', err.response.data.message);
 	  }
   }
 
