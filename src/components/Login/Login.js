@@ -6,12 +6,10 @@ import apiService from '../../services/apiService';
 import '../../assets/css/login.css'
 
 class Login extends Component {
-  constructor () {
-	  	super();
-		this.state = {
-			email: '',
-			password: ''
-		};
+  constructor (props) {
+		super(props);
+
+		this.state = { email: '', password: '' };
   }
 
   onChangeUsername (e) {
@@ -32,9 +30,14 @@ class Login extends Component {
 	  
 	  try {
 		const result = await apiService.sendRequest('/login', 'POST', body);
-		console.log(result);
+		const { gamertag, token } = result.data.data;
+
+		localStorage.setItem('token', token);
+		localStorage.setItem('gamertag', gamertag);
+		this.props.history.push('/');
+
 	  } catch (err) {
-		  console.log(err);
+		  console.log(err.response.data.message);
 	  }
   }
 
