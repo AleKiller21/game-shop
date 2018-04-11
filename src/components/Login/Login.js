@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import apiService from '../../services/apiService';
 import stateService from '../../services/stateService';
+import authService from '../../services/authService';
 
 import '../../assets/css/login.css'
 
@@ -12,6 +13,10 @@ class Login extends Component {
 		super(props);
 
 		this.state = { email: '', password: '' };
+  }
+
+  componentDidMount () {
+    authService.logOut();
   }
 
   onChangeUsername (e) {

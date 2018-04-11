@@ -10,6 +10,11 @@ class authService {
             return false;
         }
     }
+
+    static logOut () {
+        localStorage.removeItem('token');
+        localStorage.removeItem('gamertag');
+    }
 }
 
 export default authService;
