@@ -4,7 +4,7 @@ import { NotificationContainer, NotificationManager } from 'react-notifications'
 
 import 'react-notifications/lib/notifications.css';
 
-import Switcher from './Switcher';
+import Main from './Main/Main';
 import Login from './Login/Login'
 
 import stateService from '../services/stateService';
@@ -40,7 +40,7 @@ class App extends Component {
                 <NotificationContainer />
                 <Switch>
                     <Route exact path='/login' component={Login} />
-                    <Route path='/' component={Switcher} />
+                    <Route path='/' component={Main} />
                 </Switch>
             </div>
         );

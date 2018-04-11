@@ -1,0 +1,10 @@
+.container {
+    background-color: #2196f3;
+}
+
+.sidebar .logo .simple-text.logo-sidebar {
+    color: #fff;
+    font-size: 1.3125rem;
+    font-weight: 500;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
