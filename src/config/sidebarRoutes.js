@@ -3,25 +3,29 @@ const sidebarRoutes = [
         path: '/games',
         icon: 'dashboard',
         title: 'Games',
-        role: 'customer'
+        role: 'customer',
+        'active': true
     },
     {
         path: '/user',
         icon: 'person',
         title: 'Profile',
-        role: 'customer'
+        role: 'customer',
+        'active': false
     },
     {
         path: '/orders',
         icon: 'book',
         title: 'Billing History',
-        role: 'customer'
+        role: 'customer',
+        'active': false
     },
     {
         path: '/users',
         icon: 'group',
         title: 'Users',
-        role: 'admin'
+        role: 'admin',
+        'active': false
     }
 ]
 

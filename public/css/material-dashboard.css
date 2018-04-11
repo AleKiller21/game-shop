@@ -12909,9 +12909,7 @@ h2.title {
       margin-top: 13px;
       position: absolute;
       right: 6px; }
-    .sidebar .nav li > a:hover, .sidebar .nav li > a:focus {
-      background-color: transparent;
-      outline: none; }
+
     .sidebar .nav li:first-child > a {
       margin: 0 15px; }
     .sidebar .nav li:hover > a,
