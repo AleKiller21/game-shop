@@ -4,3 +4,19 @@
     font-weight: 500;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif
 }
+
+.nav-item .nav-link i {
+    color: #fff;
+}
+
+.active a {
+    background-color: #009688;
+    -webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
+    box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
+}
+
+.nav-item.active a.nav-link:hover{
+    background: #009688;
+    -webkit-box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
+    box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
+}

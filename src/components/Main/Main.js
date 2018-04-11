@@ -5,7 +5,7 @@ import Sidebar from '../Sidebar/Sidebar';
 
 function Main() {
     return (
-        <div>
+        <div className='wrapper'>
             <Sidebar />
             <Switcher />
         </div>

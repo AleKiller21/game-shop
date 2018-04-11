@@ -1,24 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import '../../assets/css/sidebar-item.css'
 
-function SidebarItem(props) {
-    const active = props.isActive ? 'active' : '';
+class SidebarItem extends Component {
+    constructor (props) {
+        super(props);
 
-    return (
-        <li className={`nav-item ${active}`}>
-            <Link className='nav-link item-text' to={props.path}>
-                <i className='material-icons'>{props.icon}</i>
-                <p>{props.title}</p>
-            </Link>
-        </li>
-    );
+        this.state = { active: this.props.active };
+    }
+    render() {
+        const active = this.state.active ? 'active' : '';
+
+        return (
+            <li className={`nav-item ${active}`}>
+                <Link className='nav-link item-text' to={this.props.path}>
+                    <i className='material-icons'>{this.props.icon}</i>
+                    <p>{this.props.title}</p>
+                </Link>
+            </li>
+        );
+    }
 }
 
 SidebarItem.propTypes = {
-    isActive: PropTypes.bool.isRequired,
+    active: PropTypes.bool.isRequired,
     path: PropTypes.string.isRequired,
     icon: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired
