@@ -1,0 +1,13 @@
+.img-thumbnail {
+    max-width: 60%;
+}
+
+.add-game-btn {
+    position: relative;
+    left: 95%;
+    margin-bottom: 50px;
+}
+
+button.add-game-btn.hide-add-game-btn {
+    display: none;
+}
