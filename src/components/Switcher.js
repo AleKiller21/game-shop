@@ -6,7 +6,7 @@ import Home from './Home/Home';
 function Switcher () {
     return (
         <Switch>
-            <Route exact path='/' component={Home} /> 
+            <Route exact path='/games' component={Home} /> 
         </Switch>
     );
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Button from 'material-ui/Button'
+import { Link } from 'react-router-dom';
 
 import apiService from '../../services/apiService';
 import stateService from '../../services/stateService';
@@ -36,7 +37,7 @@ class Login extends Component {
 
 		localStorage.setItem('token', token);
 		localStorage.setItem('gamertag', gamertag);
-		this.props.history.push('/');
+		this.props.history.push('/games');
 
 	  } catch (err) {
 		  console.log(err.response.data.message);
@@ -77,6 +78,12 @@ class Login extends Component {
                 <span className="txt1">Create an account?&nbsp;</span>
 
                 <a href="#" className="txt2 hov1">Sign up</a>
+              </div>
+
+              <div className="text-center">
+                {/* <span className="txt1">Continue as guest&nbsp;</span> */}
+
+                <Link to='/games' className="txt2 hov1">Continue as guest</Link>
               </div>
             </form>
           </div>
