@@ -8,8 +8,8 @@ import authService from '../../services/authService';
 import '../../assets/css/games.css';
 
 class Games extends Component {
-    constructor () {
-        super();
+    constructor (props) {
+        super(props);
 
         this.state = { addBtnClasses: 'add-game-btn hide-add-game-btn' };
     }
@@ -22,10 +22,14 @@ class Games extends Component {
         this.setState({ addBtnClasses });
     }
 
+    goToGameForm () {
+        this.props.history.push('/game/add');
+    }
+
     render() {
         return (
             <div>
-                <Button className={this.state.addBtnClasses} variant="fab" color="primary" aria-label="add">
+                <Button className={this.state.addBtnClasses} variant="fab" color="primary" aria-label="add" onClick={() => this.goToGameForm()}>
                     <AddIcon />
                 </Button>
                 <div className="row text-center text-lg-left">
