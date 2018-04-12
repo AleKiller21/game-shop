@@ -5,6 +5,10 @@ export default (function () {
 		if (!state) state = {};
 	}
 
+	function addData (prop, value) {
+		return addFunctionToState(prop, value);
+	}
+
 	function addFunctionToState (prop, value) {
 		initializeState();
 		state[prop] = value;
@@ -16,5 +20,9 @@ export default (function () {
 		else return state[prop];
 	}
 
-	return { addFunctionToState, getFunction };
+	function getData (prop) {
+		return getFunction(prop);
+	}
+
+	return { addFunctionToState, getFunction, addData, getData };
 })();

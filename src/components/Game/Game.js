@@ -29,24 +29,24 @@ class Game extends Component {
         try {
             const response = await apiService.sendRequest(`/game/${this.props.match.params.name}`, 'GET');
             const { id, name, developer, publisher, price, description, image } = response.data.data;
+
             stateService.getFunction('changeNavTitle')(name);
             this.setState({ id, name, developer, publisher, price, description, image }, () => console.log(this.state));
+
         } catch (err) {
             console.error(err.response);
         }
     }
 
     render() {
+        const btnClass = stateService.getData('isAdmin') ? 'action-button' : 'hide-btn';
         return (
             <div>
                 <div>
-                    <Button className='action-button' variant="fab" color="primary" aria-label="add">
-                        <AddIcon />
-                    </Button>
-                    <Button className='action-button' variant="fab" color="secondary" aria-label="edit">
+                    <Button className={`${btnClass}`} variant="fab" color="secondary" aria-label="edit">
                         <Icon>edit_icon</Icon>
                     </Button>
-                    <Button className='action-button' variant="fab" aria-label="delete">
+                    <Button className={`${btnClass}`} variant="fab" aria-label="delete">
                         <DeleteIcon />
                     </Button>
                 </div>

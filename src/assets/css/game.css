@@ -6,3 +6,7 @@ button.action-button {
     float: right;
     margin-right: 25px;
 }
+
+button.hide-btn {
+    display: none;
+}
