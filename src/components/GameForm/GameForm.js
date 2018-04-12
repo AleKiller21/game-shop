@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import stateService from '../../services/stateService';
 import apiService from '../../services/apiService';
@@ -8,12 +9,12 @@ class GameForm extends Component {
         super(props);
 
         this.state = {
-            name: '',
-            developer: '',
-            publisher: '',
-            price: '0',
-            image: '',
-            description: ''
+            name: this.props.name,
+            developer: this.props.developer,
+            publisher: this.props.publisher,
+            price: this.props.price,
+            image: this.props.image,
+            description: this.props.description
         };
     }
 
@@ -100,5 +101,14 @@ class GameForm extends Component {
         );
     }
 }
+
+GameForm.propTypes = {
+    name: PropTypes.string.isRequired,
+    developer: PropTypes.string.isRequired,
+    publisher: PropTypes.string.isRequired,
+    price: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired
+};
 
 export default GameForm;
