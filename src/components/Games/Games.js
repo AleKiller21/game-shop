@@ -24,7 +24,8 @@ class Games extends Component {
         let games = [];
 
         try {
-            games = await apiService.sendRequest('/games', 'GET');
+            const response = await apiService.sendRequest('/games', 'GET');
+            games = response.data.data;
         } catch (err) {
             console.log(err);
             stateService.getFunction('showNotification')('error', 'Error', 'The game list was not able to load correctly');
