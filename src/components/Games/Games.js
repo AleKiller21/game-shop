@@ -19,7 +19,7 @@ class Games extends Component {
 
     async componentDidMount() {
         stateService.getFunction('changeNavTitle')('Games');
-        const isAdmin = stateService.getData('isAdmin');
+        const isAdmin = await authService.isCurrentUserAdmin();
         const addBtnClasses = isAdmin ? 'add-game-btn' : 'add-game-btn hide-add-game-btn';
         let games = [];
 
@@ -35,7 +35,7 @@ class Games extends Component {
     }
 
     goToGameForm () {
-        this.props.history.push('/game/add');
+        this.props.history.push('/game/edit/');
     }
 
     render() {

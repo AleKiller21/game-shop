@@ -43,9 +43,7 @@ class Login extends Component {
       localStorage.setItem('token', token);
       localStorage.setItem('gamertag', gamertag);
 
-      const isAdmin = await authService.isCurrentUserAdmin();
-      stateService.addData('isAdmin', isAdmin);
-      this.props.history.push('/games');
+      this.props.history.push('/store');
 
     } catch (err) {
       console.log(err.response.data.message);
@@ -91,7 +89,7 @@ class Login extends Component {
               <div className="text-center">
                 {/* <span className="txt1">Continue as guest&nbsp;</span> */}
 
-                <Link to='/games' className="txt2 hov1" onClick={() => stateService.addData('isAdmin', false)}>Continue as guest</Link>
+                <Link to='/store' className="txt2 hov1" onClick={() => stateService.addData('isAdmin', false)}>Continue as guest</Link>
               </div>
             </form>
           </div>

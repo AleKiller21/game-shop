@@ -1,6 +1,6 @@
 const sidebarRoutes = [
     {
-        path: '/games',
+        path: '/store',
         icon: 'dashboard',
         title: 'Games',
         role: 'customer',

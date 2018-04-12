@@ -1,36 +1,63 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import stateService from '../../services/stateService';
 import apiService from '../../services/apiService';
 
 class GameForm extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
 
         this.state = {
-            name: this.props.name,
-            developer: this.props.developer,
-            publisher: this.props.publisher,
-            price: this.props.price,
-            image: this.props.image,
-            description: this.props.description
+            id: '',
+            name: '',
+            developer: '',
+            publisher: '',
+            price: '',
+            image: '',
+            description: ''
         };
     }
 
-    componentDidMount () {
-        stateService.getFunction('changeNavTitle')('Add Game');
+    async componentDidMount() {
+        const gameName = this.props.match.params.name;
+
+        if (!gameName) {
+            stateService.getFunction('changeNavTitle')('Add Game');
+            return;
+        }
+
+        try {
+            stateService.getFunction('changeNavTitle')('Edit Game');
+            const response = await apiService.sendRequest(`/game/${gameName}`, 'GET');
+            const { id, name, developer, publisher, price, image, description } = response.data.data;
+
+            this.setState({ id, name, developer, publisher, price, image, description });
+
+        } catch (err ) {
+            console.log(err);
+            stateService.getFunction('showNotification')('error', 'Error', 'An error has ocurred');
+        }
     }
 
-    async addGame (e) {
+    async runAction(e) {
         e.preventDefault();
         const { name, developer, publisher, price, image, description } = this.state;
         const body = { name, developer, publisher, price, image, description };
 
         try {
-            const response = await apiService.sendRequest('/game/add', 'POST', body);
-            stateService.getFunction('showNotification')('success', 'Success', 'Game has been added');
-            this.props.history.push('/games');
+            const action = this.props.match.params.name ? 'edit' : 'add';
+
+            if (action === 'add') {
+                const response = await apiService.sendRequest('/game/add', 'POST', body);
+                stateService.getFunction('showNotification')('success', 'Success', 'Game has been added');
+            } else {
+                body.id = this.state.id;
+                const response = await apiService.sendRequest('/game/update', 'POST', body);
+                stateService.getFunction('showNotification')('success', 'Success', 'Changes have been applied');
+            }
+
+            this.props.history.push('/store');
+
         } catch (err) {
             console.log(err.response);
             stateService.getFunction('showNotification')('error', 'Error', 'An error has ocurred');
@@ -38,6 +65,8 @@ class GameForm extends Component {
     }
 
     render() {
+        const submitBtnTitle = this.props.match.params.name ? 'Update' : 'Add Game';
+
         return (
             <div className="container-fluid">
                 <div className="col-md-12">
@@ -46,7 +75,7 @@ class GameForm extends Component {
                             <h4 className="card-title">Insert Game into Store Database</h4>
                         </div>
                         <div className="card-body">
-                            <form onSubmit={(e) => this.addGame(e)}>
+                            <form onSubmit={(e) => this.runAction(e)}>
                                 <div className="row">
                                     <div className="col-md-5">
                                         <div className="form-group">
@@ -91,7 +120,7 @@ class GameForm extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" className="btn btn-primary pull-right">Add Game</button>
+                                <button type="submit" className="btn btn-primary pull-right">{submitBtnTitle}</button>
                                 <div className="clearfix"></div>
                             </form>
                         </div>
@@ -101,14 +130,5 @@ class GameForm extends Component {
         );
     }
 }
-
-GameForm.propTypes = {
-    name: PropTypes.string.isRequired,
-    developer: PropTypes.string.isRequired,
-    publisher: PropTypes.string.isRequired,
-    price: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired
-};
 
 export default GameForm;

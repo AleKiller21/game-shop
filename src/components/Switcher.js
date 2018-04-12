@@ -9,12 +9,12 @@ import WithAuth from './HOC/WithAuth';
 function Switcher () {
     return (
         <Switch>
-            <Route exact path='/games' component={Games} />
-            <Route exact path='/game/add' render={props => {
+            <Route exact path='/store' component={Games} />
+            <Route path='/game/edit/:name?' render={props => {
                 const WithAuthGameForm = WithAuth(GameForm, props);
                 return <WithAuthGameForm />;
             }} />
-            <Route exact path='/game/:name' component={Game} />
+            <Route exact path='/store/:name' component={Game} />
         </Switch>
     );
 }

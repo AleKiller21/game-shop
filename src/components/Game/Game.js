@@ -4,8 +4,11 @@ import AddIcon from '@material-ui/icons/Add';
 import Icon from 'material-ui/Icon';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+import GameForm from '../GameForm/GameForm';
+
 import apiService from '../../services/apiService';
 import stateService from '../../services/stateService';
+import authService from '../../services/authService';
 
 import '../../assets/css/responsive.css';
 import '../../assets/css/style.css';
@@ -16,22 +19,25 @@ class Game extends Component {
         super(props);
 
         this.state = {
-            'id': '',
+            id: '',
             name: '',
             developer: '',
             publisher: '',
             price: '',
             description: '',
-            image: ''
+            image: '',
+            isAdmin: false
         };
     }
     async componentDidMount() {
         try {
             const response = await apiService.sendRequest(`/game/${this.props.match.params.name}`, 'GET');
+            const isAdmin = await authService.isCurrentUserAdmin();
+
             const { id, name, developer, publisher, price, description, image } = response.data.data;
 
             stateService.getFunction('changeNavTitle')(name);
-            this.setState({ id, name, developer, publisher, price, description, image }, () => console.log(this.state));
+            this.setState({ id, name, developer, publisher, price, description, image, isAdmin }, () => console.log(this.state));
 
         } catch (err) {
             console.error(err.response);
@@ -39,11 +45,11 @@ class Game extends Component {
     }
 
     render() {
-        const btnClass = stateService.getData('isAdmin') ? 'action-button' : 'hide-btn';
+        const btnClass = this.state.isAdmin ? 'action-button' : 'hide-btn';
         return (
             <div>
                 <div>
-                    <Button className={`${btnClass}`} variant="fab" color="secondary" aria-label="edit">
+                    <Button className={`${btnClass}`} variant="fab" color="secondary" aria-label="edit" onClick={() => this.props.history.push(`/game/edit/${this.state.name}`)}>
                         <Icon>edit_icon</Icon>
                     </Button>
                     <Button className={`${btnClass}`} variant="fab" aria-label="delete">

@@ -10,12 +10,12 @@ export default function WithAuth (CustomComponent, props) {
 			console.log(isAdmin);
 			if (!isAdmin) {
 				stateService.getFunction('showNotification')('err', 'Lack of Privileges', 'You are not authorized to access this view');
-				props.history.replace('/games');
+				props.history.replace('/store');
 			}
 		}
 
 		render () {
-			return <CustomComponent />;
+			return <CustomComponent {...props} />;
 		}
 	});
 }
