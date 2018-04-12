@@ -3,6 +3,14 @@ import Button from 'material-ui/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Icon from 'material-ui/Icon';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Dialog, {
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+} from 'material-ui/Dialog';
+
+import Slide from 'material-ui/transitions/Slide';
 
 import GameForm from '../GameForm/GameForm';
 
@@ -26,7 +34,8 @@ class Game extends Component {
             price: '',
             description: '',
             image: '',
-            isAdmin: false
+            isAdmin: false,
+            deleteModalOpen: false
         };
     }
     async componentDidMount() {
@@ -44,15 +53,66 @@ class Game extends Component {
         }
     }
 
+    Transition(props) {
+        return <Slide direction="up" {...props} />;
+    }
+
+    handleClickOpen() {
+        this.setState({ deleteModalOpen: true });
+    };
+
+    handleClose() {
+        this.setState({ deleteModalOpen: false });
+    };
+
+    async deleteGame() {
+        const body = { id: this.state.id };
+
+        try {
+            const result = await apiService.sendRequest('/game/delete', 'POST', body);
+            this.handleClose();
+            stateService.getFunction('showNotification')('success', 'Success', `${this.state.name} has been deleted`);
+            this.props.history.replace('/store');
+
+        } catch (err) {
+            console.log(err);
+            stateService.getFunction('showNotification')('err', 'Error', 'The game could not be deleted');
+        }
+    }
+
     render() {
         const btnClass = this.state.isAdmin ? 'action-button' : 'hide-btn';
         return (
             <div>
                 <div>
+                    <Dialog
+                        open={this.state.deleteModalOpen}
+                        transition={this.Transition}
+                        keepMounted
+                        onClose={() => this.handleClose()}
+                        aria-labelledby="alert-dialog-slide-title"
+                        aria-describedby="alert-dialog-slide-description"
+                    >
+                        <DialogTitle id="alert-dialog-slide-title">
+                            {"Are you sure you want to delete this game"}
+                        </DialogTitle>
+                        <DialogActions>
+                            <Button onClick={() => this.handleClose()} color="primary">
+                                Disagree
+            </Button>
+                            <Button onClick={() => this.deleteGame()} color="primary">
+                                Agree
+            </Button>
+                        </DialogActions>
+                    </Dialog>
+                </div>
+
+
+                <div>
                     <Button className={`${btnClass}`} variant="fab" color="secondary" aria-label="edit" onClick={() => this.props.history.push(`/game/edit/${this.state.name}`)}>
                         <Icon>edit_icon</Icon>
                     </Button>
-                    <Button className={`${btnClass}`} variant="fab" aria-label="delete">
+                    <Button className={`${btnClass}`} variant="fab" aria-label="delete" onClick={() => this.handleClickOpen()}>
                         <DeleteIcon />
                     </Button>
                 </div>

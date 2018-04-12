@@ -13,7 +13,7 @@ class GameTile extends Component {
         return (
             <div className="col-lg-3 col-md-4 col-xs-6">
                 <Link to={`/store/${this.props.title}`} className="d-block mb-4 h-100">
-                    <img className="img-fluid img-thumbnail game-cover" src={this.props.url} alt={this.props.title} />
+                    <img className="img-fluid img-thumbnail game-cover" src={this.props.url} alt={this.props.title} title={this.props.title} />
                 </Link>
             </div>
         );
