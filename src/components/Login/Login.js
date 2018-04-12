@@ -9,48 +9,48 @@ import authService from '../../services/authService';
 import '../../assets/css/login.css'
 
 class Login extends Component {
-  constructor (props) {
-		super(props);
+  constructor(props) {
+    super(props);
 
-		this.state = { email: '', password: '' };
+    this.state = { email: '', password: '' };
   }
 
-  componentDidMount () {
+  componentDidMount() {
     authService.logOut();
   }
 
-  onChangeUsername (e) {
-	  const email = e.target.value;
-	  this.setState({ email });
+  onChangeUsername(e) {
+    const email = e.target.value;
+    this.setState({ email });
   }
 
-  onChangePassword (e) {
-	  const password = e.target.value;
-	  this.setState({ password });
+  onChangePassword(e) {
+    const password = e.target.value;
+    this.setState({ password });
   }
 
   async doLogin(e) {
-	  e.preventDefault();
-	  
-	  const { email, password } = this.state;
-	  const body = { email, password };
-	  
-	  try {
-		const result = await apiService.sendRequest('/login', 'POST', body);
-		const { gamertag, token } = result.data.data;
-		stateService.getFunction('showNotification')('success', 'Success', `Welcome ${gamertag}`);
+    e.preventDefault();
 
-		localStorage.setItem('token', token);
-		localStorage.setItem('gamertag', gamertag);
-		this.props.history.push('/games');
+    const { email, password } = this.state;
+    const body = { email, password };
 
-	  } catch (err) {
-		  console.log(err.response.data.message);
-		  stateService.getFunction('showNotification')('error', 'Invalid credentials', err.response.data.message);
-	  }
+    try {
+      const result = await apiService.sendRequest('/login', 'POST', body);
+      const { gamertag, token } = result.data.data;
+      stateService.getFunction('showNotification')('success', 'Success', `Welcome ${gamertag}`);
+
+      localStorage.setItem('token', token);
+      localStorage.setItem('gamertag', gamertag);
+      this.props.history.push('/games');
+
+    } catch (err) {
+      console.log(err.response.data.message);
+      stateService.getFunction('showNotification')('error', 'Invalid credentials', err.response.data.message);
+    }
   }
 
-  render () {
+  render() {
     return (
       <div className="limiter">
         <div className="container-login100">
@@ -58,7 +58,7 @@ class Login extends Component {
             <form className="login100-form validate-form" onSubmit={e => this.doLogin(e)}>
               <span className="login100-form-title p-b-33">Account Login</span>
 
-              <div className="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+              <div className="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
                 <input className="input100" type="text" name="email" placeholder="Email" value={this.state.email} onChange={e => this.onChangeUsername(e)} />
                 <span className="focus-input100-1"></span>
                 <span className="focus-input100-2"></span>
