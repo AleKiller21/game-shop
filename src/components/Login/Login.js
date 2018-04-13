@@ -17,6 +17,7 @@ class Login extends Component {
 
   componentDidMount() {
     authService.logOut();
+    stateService.addData('userInfo', {});
   }
 
   onChangeUsername(e) {

@@ -10,3 +10,7 @@ button.action-button {
 button.hide-btn {
     display: none;
 }
+
+button.btn-buy {
+    min-width: 30%;
+}

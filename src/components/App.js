@@ -17,7 +17,6 @@ class App extends Component {
     }
 
     createNotification (type, header, message) {
-        console.log('entro');
         switch (type) {
             case 'info':
               NotificationManager.info(message);

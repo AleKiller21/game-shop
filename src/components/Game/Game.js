@@ -80,6 +80,22 @@ class Game extends Component {
         }
     }
 
+    async buyGame(e) {
+        // e.target.disabled = true;
+        // console.log(e.target);
+        const { id, price } = this.state;
+
+        try {
+            const userId = stateService.getData('userInfo')['id'];
+            const body = { game_id: id, user_id: userId, total: price };
+            await apiService.sendRequest('/order/add', 'POST', body);
+            stateService.getFunction('showNotification')('success', 'Success', `Order completed successfully`);
+        } catch (err) {
+            console.error(err);
+            stateService.getFunction('showNotification')('error', 'Error', 'The order was not successful');
+        }
+    }
+
     render() {
         const btnClass = stateService.getData('isAdmin') ? 'action-button' : 'hide-btn';
 
@@ -141,6 +157,9 @@ class Game extends Component {
                                             <li><a href="#">$ {this.state.price}</a></li>
                                         </ul>
                                     </div>
+                                    <Button className='btn-buy' variant="raised" color="primary" onClick={(e) => this.buyGame(e)}>
+                                        Buy
+                                    </Button>
                                 </div>
                             </div>
                         </div>
