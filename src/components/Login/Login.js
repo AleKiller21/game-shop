@@ -15,7 +15,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { email: '', password: '', view: 'signup' };
+    this.state = { view: 'login' };
   }
 
   componentDidMount() {
@@ -23,36 +23,19 @@ class Login extends Component {
     stateService.addData('userInfo', {});
   }
 
-  onChangeUsername(e) {
-    const email = e.target.value;
-    this.setState({ email });
+  handleRedirect() {
+    this.props.history.push('/store');
   }
 
-  onChangePassword(e) {
-    const password = e.target.value;
-    this.setState({ password });
-  }
-
-  async doLogin(e) {
+  redirectSignUp(e) {
     e.preventDefault();
+    this.setState({ view: 'signup' });
+  }
 
-    const { email, password } = this.state;
-    const body = { email, password };
+  redirectLogin(e) {
+    if (e) e.preventDefault();
 
-    try {
-      const result = await apiService.sendRequest('/login', 'POST', body);
-      const { gamertag, token } = result.data.data;
-      stateService.getFunction('showNotification')('success', 'Success', `Welcome ${gamertag}`);
-
-      localStorage.setItem('token', token);
-      localStorage.setItem('gamertag', gamertag);
-
-      this.props.history.push('/store');
-
-    } catch (err) {
-      console.log(err.response.data.message);
-      stateService.getFunction('showNotification')('error', 'Invalid credentials', err.response.data.message);
-    }
+    this.setState({ view: 'login' });
   }
 
   render() {
@@ -60,7 +43,7 @@ class Login extends Component {
       <div className="limiter">
         <div className="container-login100">
           <div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
-            { this.state.view === 'login' ? <LoginForm /> : <SignupForm />}
+            {this.state.view === 'login' ? (<LoginForm handleRedirect={() => this.handleRedirect()} redirectSignUp={(e) => this.redirectSignUp(e)} />) : <SignupForm handleRedirect={() => this.handleRedirect()} redirectLogin={(e) => this.redirectLogin(e)} />}
           </div>
         </div>
       </div>
