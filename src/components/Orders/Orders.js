@@ -13,8 +13,9 @@ class Orders extends Component {
     }
 
     async componentDidMount () {
+        const isAdmin = stateService.getData('isAdmin');
         try {
-            const response = await apiService.sendRequest('/orders', 'GET');
+            const response = isAdmin ? await apiService.sendRequest('/orders', 'GET') : await apiService.sendRequest('/orders/user', 'GET');
             this.setState({ orders: response.data.data });
         } catch (err) {
             console.error(err);
