@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const urlBase = 'http://localhost:5000';
+const urlBase = 'http://python.api.com';
 
 export default class apiService {
     static async sendRequest(uri, method, data={}) {
