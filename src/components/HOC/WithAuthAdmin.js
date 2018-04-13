@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import authService from '../../services/authService';
 import stateService from '../../services/stateService';
 
-export default function WithAuth (CustomComponent, props) {
+export default function WithAuthAdmin (CustomComponent, props) {
 	return (class extends Component {
 		componentWillMount () {
 			console.log('entro');

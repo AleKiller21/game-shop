@@ -25,7 +25,7 @@ class Main extends Component {
 
                 stateService.addData('userInfo', response.data.data);
                 stateService.addData('isAdmin', isAdmin);
-
+                console.log(isAdmin);
                 this.setState({ isAdmin });
             } catch (err) {
                 console.error(err);
