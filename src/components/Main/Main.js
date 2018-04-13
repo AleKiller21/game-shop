@@ -9,33 +9,33 @@ import stateService from '../../services/stateService';
 import apiService from '../../services/apiService';
 
 class Main extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
-        
+
         this.state = { isAdmin: false };
     }
 
-    async componentDidMount () {
+    async componentDidMount() {
         const isAdmin = await authService.isCurrentUserAdmin();
         const gamertag = localStorage.getItem('gamertag');
 
         if (gamertag) {
             try {
                 const response = await apiService.sendRequest(`/user/${gamertag}`, 'GET');
-                console.log(response);
+
                 stateService.addData('userInfo', response.data.data);
+                stateService.addData('isAdmin', isAdmin);
+
+                this.setState({ isAdmin });
             } catch (err) {
                 console.error(err);
                 stateService.getFunction('showNotification')('error', 'Invalid credentials', err.response.data.message);
                 this.props.history.replace('/');
             }
         }
-        console.log(isAdmin);
-        stateService.addData('isAdmin', isAdmin);
-        this.setState({ isAdmin });
     }
 
-    render () {
+    render() {
         return (
             <div className='wrapper'>
                 <Sidebar />

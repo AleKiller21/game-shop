@@ -13,7 +13,7 @@ const sidebarRoutes = [
         title: 'Profile',
         role: 'customer',
         active: false,
-        auth: false
+        auth: true
     },
     {
         path: '/orders',
@@ -21,7 +21,7 @@ const sidebarRoutes = [
         title: 'Billing History',
         role: 'customer',
         active: false,
-        auth: false
+        auth: true
     },
     {
         path: '/users',
@@ -29,7 +29,7 @@ const sidebarRoutes = [
         title: 'Users',
         role: 'admin',
         active: false,
-        auth: false
+        auth: true
     },
     {
         path: '/',

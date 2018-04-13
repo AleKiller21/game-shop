@@ -98,6 +98,7 @@ class Game extends Component {
 
     render() {
         const btnClass = stateService.getData('isAdmin') ? 'action-button' : 'hide-btn';
+        const hideBtnBuy = localStorage.getItem('token') ? 'btn-buy' : 'hide-btn';
 
         return (
             <div>
@@ -157,7 +158,7 @@ class Game extends Component {
                                             <li><a href="#">$ {this.state.price}</a></li>
                                         </ul>
                                     </div>
-                                    <Button className='btn-buy' variant="raised" color="primary" onClick={(e) => this.buyGame(e)}>
+                                    <Button className={`${hideBtnBuy}`} variant="raised" color="primary" onClick={(e) => this.buyGame(e)}>
                                         Buy
                                     </Button>
                                 </div>

@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import SidebarItem from '../SidebarItem/SidebarItem';
 import sidebarRoutes from '../../config/sidebarRoutes';
 
+import stateService from '../../services/stateService';
+
 import '../../assets/css/sidebar.css'
 
 class Sidebar extends Component {
@@ -29,6 +31,9 @@ class Sidebar extends Component {
     }
 
     render() {
+        const isAuthenticated = localStorage.getItem('token');
+        const isAdmin = stateService.getData('isAdmin');
+
         return (
             <div className="sidebar">
                 <div className="logo">
@@ -41,6 +46,9 @@ class Sidebar extends Component {
                     <ul className="nav">
                         {sidebarRoutes.map((route, indx) => {
                             const active = this.state.status[indx];
+
+                            if (route.auth && !isAuthenticated) return '';
+                            if (route.role === 'admin' && !isAdmin) return '';
 
                             return <SidebarItem key={indx} active={active}
                                 path={route.path}
