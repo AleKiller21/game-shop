@@ -4,9 +4,9 @@ import stateService from '../../services/stateService';
 
 export default function WithAuth (CustomComponent, props) {
 	return (class extends Component {
-		async componentWillMount () {
+		componentWillMount () {
 			console.log('entro');
-			const isAdmin = await authService.isCurrentUserAdmin();
+			const isAdmin = stateService.getData('isAdmin');
 			console.log(isAdmin);
 			if (!isAdmin) {
 				stateService.getFunction('showNotification')('err', 'Lack of Privileges', 'You are not authorized to access this view');
