@@ -19,8 +19,10 @@ class Games extends Component {
 
     async componentDidMount() {
         stateService.getFunction('changeNavTitle')('Games');
-        const isAdmin = await authService.isCurrentUserAdmin();
-        const addBtnClasses = isAdmin ? 'add-game-btn' : 'add-game-btn hide-add-game-btn';
+        // const isAdmin = await authService.isCurrentUserAdmin();
+        // const isAdmin = stateService.getData('isAdmin');
+        // console.log(isAdmin);
+        // const addBtnClasses = isAdmin ? 'add-game-btn' : 'add-game-btn hide-add-game-btn';
         let games = [];
 
         try {
@@ -31,7 +33,7 @@ class Games extends Component {
             stateService.getFunction('showNotification')('error', 'Error', 'The game list was not able to load correctly');
         }
 
-        this.setState({ addBtnClasses, games });
+        this.setState({ games });
     }
 
     goToGameForm () {
@@ -39,9 +41,13 @@ class Games extends Component {
     }
 
     render() {
+        const isAdmin = stateService.getData('isAdmin');
+        console.log(isAdmin);
+        const addBtnClasses = isAdmin ? 'add-game-btn' : 'add-game-btn hide-add-game-btn';
+
         return (
             <div>
-                <Button className={this.state.addBtnClasses} variant="fab" color="primary" aria-label="add" onClick={() => this.goToGameForm()}>
+                <Button className={addBtnClasses} variant="fab" color="primary" aria-label="add" onClick={() => this.goToGameForm()}>
                     <AddIcon />
                 </Button>
                 <div className="row text-center text-lg-left">

@@ -34,19 +34,19 @@ class Game extends Component {
             price: '',
             description: '',
             image: '',
-            isAdmin: false,
+            // isAdmin: false,
             deleteModalOpen: false
         };
     }
     async componentDidMount() {
         try {
             const response = await apiService.sendRequest(`/game/${this.props.match.params.name}`, 'GET');
-            const isAdmin = await authService.isCurrentUserAdmin();
+            // const isAdmin = await authService.isCurrentUserAdmin();
 
             const { id, name, developer, publisher, price, description, image } = response.data.data;
 
             stateService.getFunction('changeNavTitle')(name);
-            this.setState({ id, name, developer, publisher, price, description, image, isAdmin }, () => console.log(this.state));
+            this.setState({ id, name, developer, publisher, price, description, image }, () => console.log(this.state));
 
         } catch (err) {
             console.error(err.response);
@@ -81,7 +81,8 @@ class Game extends Component {
     }
 
     render() {
-        const btnClass = this.state.isAdmin ? 'action-button' : 'hide-btn';
+        const btnClass = stateService.getData('isAdmin') ? 'action-button' : 'hide-btn';
+
         return (
             <div>
                 <div>
