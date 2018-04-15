@@ -6,9 +6,8 @@ export default function WithAuth (CustomComponent, props) {
 	return (class extends Component {
 		componentWillMount () {
             const isLogin = localStorage.getItem('token');
-            console.log(isLogin);
 			if (!isLogin) {
-				props.history.replace('/store');
+				props.history.replace('/');
 			}
 		}
 

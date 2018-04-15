@@ -5,6 +5,7 @@ import SidebarItem from '../SidebarItem/SidebarItem';
 import sidebarRoutes from '../../config/sidebarRoutes';
 
 import stateService from '../../services/stateService';
+import authService from '../../services/authService';
 
 import '../../assets/css/sidebar.css'
 
@@ -17,7 +18,7 @@ class Sidebar extends Component {
     componentDidMount () {
         const status = [];
         sidebarRoutes.map((route, indx) => status[indx] = route.active);
-        this.setState({ status }, () => console.log(this.state.status));
+        this.setState({ status });
     }
 
     onChangeRoute (indx) {
@@ -27,12 +28,12 @@ class Sidebar extends Component {
         status[indx] = true;
         status[this.state.current] = false;
 
-        this.setState({ status, current: indx }, () => console.log(this.state.status));
+        this.setState({ status, current: indx });
     }
 
     render() {
         const isAuthenticated = localStorage.getItem('token');
-        const isAdmin = stateService.getData('isAdmin');
+        const isAdmin = authService.isCurrentUserAdmin();
 
         return (
             <div className="sidebar">

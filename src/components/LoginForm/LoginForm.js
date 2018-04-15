@@ -31,16 +31,14 @@ class LoginForm extends Component {
     
         try {
           const result = await apiService.sendRequest('/login', 'POST', body);
-          const { gamertag, token } = result.data.data;
-          stateService.getFunction('showNotification')('success', 'Success', `Welcome ${gamertag}`);
+          const { token } = result.data.data;
     
           localStorage.setItem('token', token);
-          localStorage.setItem('gamertag', gamertag);
 
           this.props.handleRedirect();
     
         } catch (err) {
-          console.log(err.response.data.message);
+          console.error(err.response);
           stateService.getFunction('showNotification')('error', 'Invalid credentials', err.response.data.message);
         }
       }
@@ -75,7 +73,7 @@ class LoginForm extends Component {
                 <div className="text-center">
                     {/* <span className="txt1">Continue as guest&nbsp;</span> */}
     
-                    <Link to='/store' className="txt2 hov1" onClick={() => stateService.addData('isAdmin', false)}>Continue as guest</Link>
+                    <Link to='/store' className="txt2 hov1">Continue as guest</Link>
                 </div>
             </form>
         );

@@ -19,17 +19,13 @@ class Games extends Component {
 
     async componentDidMount() {
         stateService.getFunction('changeNavTitle')('Games');
-        // const isAdmin = await authService.isCurrentUserAdmin();
-        // const isAdmin = stateService.getData('isAdmin');
-        // console.log(isAdmin);
-        // const addBtnClasses = isAdmin ? 'add-game-btn' : 'add-game-btn hide-add-game-btn';
         let games = [];
 
         try {
             const response = await apiService.sendRequest('/games', 'GET');
             games = response.data.data;
         } catch (err) {
-            console.log(err);
+            console.error(err);
             stateService.getFunction('showNotification')('error', 'Error', 'The game list was not able to load correctly');
         }
 
@@ -41,7 +37,7 @@ class Games extends Component {
     }
 
     render() {
-        const isAdmin = stateService.getData('isAdmin');
+        const isAdmin = authService.isCurrentUserAdmin();
         console.log(isAdmin);
         const addBtnClasses = isAdmin ? 'add-game-btn' : 'add-game-btn hide-add-game-btn';
 

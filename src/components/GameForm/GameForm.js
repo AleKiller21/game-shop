@@ -34,7 +34,7 @@ class GameForm extends Component {
             this.setState({ id, name, developer, publisher, price, image, description });
 
         } catch (err ) {
-            console.log(err);
+            console.error(err);
             stateService.getFunction('showNotification')('error', 'Error', 'An error has ocurred');
         }
     }
@@ -59,7 +59,7 @@ class GameForm extends Component {
             this.props.history.push('/store');
 
         } catch (err) {
-            console.log(err.response);
+            console.error(err.response);
             stateService.getFunction('showNotification')('error', 'Error', 'An error has ocurred');
         }
     }

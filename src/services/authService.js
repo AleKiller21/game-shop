@@ -1,19 +1,23 @@
 import apiService from './apiService';
 
 class authService {
-    static async isCurrentUserAdmin () {
-        try {
-            const response = await apiService.sendRequest('/user/isadmin', 'GET');
-            return response.data.data.admin;
-        } catch (err) {
-            console.error(err);
-            return false;
-        }
+    static isCurrentUserAdmin () {
+        return this.getTokenPayload().role === 'admin';
+    }
+
+    static getTokenPayload () {
+        let token = localStorage.getItem('token');
+        if (!token) return false;
+
+        token = token.split(' ')[1];
+        const payload = token.split('.')[1];
+        const data = window.atob(payload);
+
+        return JSON.parse(data);
     }
 
     static logOut () {
         localStorage.removeItem('token');
-        localStorage.removeItem('gamertag');
     }
 }
 

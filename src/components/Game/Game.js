@@ -34,19 +34,17 @@ class Game extends Component {
             price: '',
             description: '',
             image: '',
-            // isAdmin: false,
             deleteModalOpen: false
         };
     }
     async componentDidMount() {
         try {
             const response = await apiService.sendRequest(`/game/${this.props.match.params.name}`, 'GET');
-            // const isAdmin = await authService.isCurrentUserAdmin();
 
             const { id, name, developer, publisher, price, description, image } = response.data.data;
 
             stateService.getFunction('changeNavTitle')(name);
-            this.setState({ id, name, developer, publisher, price, description, image }, () => console.log(this.state));
+            this.setState({ id, name, developer, publisher, price, description, image });
 
         } catch (err) {
             console.error(err.response);
@@ -75,21 +73,20 @@ class Game extends Component {
             this.props.history.replace('/store');
 
         } catch (err) {
-            console.log(err);
+            console.error(err);
             stateService.getFunction('showNotification')('err', 'Error', 'The game could not be deleted');
         }
     }
 
     async buyGame(e) {
-        // e.target.disabled = true;
-        // console.log(e.target);
         const { id, price } = this.state;
 
         try {
-            const userId = stateService.getData('userInfo')['id'];
+            const userId = authService.getTokenPayload().id;
             const body = { game_id: id, user_id: userId, total: price };
             await apiService.sendRequest('/order/add', 'POST', body);
             stateService.getFunction('showNotification')('success', 'Success', `Order completed successfully`);
+            this.props.history.push('/orders');
         } catch (err) {
             console.error(err);
             stateService.getFunction('showNotification')('error', 'Error', 'The order was not successful');
@@ -97,7 +94,8 @@ class Game extends Component {
     }
 
     render() {
-        const btnClass = stateService.getData('isAdmin') ? 'action-button' : 'hide-btn';
+        const isAdmin = authService.isCurrentUserAdmin();
+        const btnClass = isAdmin ? 'action-button' : 'hide-btn';
         const hideBtnBuy = localStorage.getItem('token') ? 'btn-buy' : 'hide-btn';
 
         return (

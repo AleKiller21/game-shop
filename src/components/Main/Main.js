@@ -9,32 +9,6 @@ import stateService from '../../services/stateService';
 import apiService from '../../services/apiService';
 
 class Main extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = { isAdmin: false };
-    }
-
-    async componentDidMount() {
-        const isAdmin = await authService.isCurrentUserAdmin();
-        const gamertag = localStorage.getItem('gamertag');
-
-        if (gamertag) {
-            try {
-                const response = await apiService.sendRequest(`/user/${gamertag}`, 'GET');
-
-                stateService.addData('userInfo', response.data.data);
-                stateService.addData('isAdmin', isAdmin);
-                console.log(isAdmin);
-                this.setState({ isAdmin });
-            } catch (err) {
-                console.error(err);
-                stateService.getFunction('showNotification')('error', 'Invalid credentials', err.response.data.message);
-                this.props.history.replace('/');
-            }
-        }
-    }
-
     render() {
         return (
             <div className='wrapper'>
