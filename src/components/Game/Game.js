@@ -74,7 +74,9 @@ class Game extends Component {
 
         } catch (err) {
             console.error(err);
-            stateService.getFunction('showNotification')('err', 'Error', 'The game could not be deleted');
+            console.log('entro');
+            this.handleClose();
+            stateService.getFunction('showNotification')('error', 'Error', 'The game could not be deleted');
         }
     }
 
@@ -89,6 +91,7 @@ class Game extends Component {
             this.props.history.push('/orders');
         } catch (err) {
             console.error(err);
+            this.handleClose();
             stateService.getFunction('showNotification')('error', 'Error', 'The order was not successful');
         }
     }
