@@ -17,19 +17,23 @@ class Games extends Component {
         this.state = { addBtnClasses: 'add-game-btn hide-add-game-btn', games: [] };
     }
 
-    async componentDidMount() {
-        stateService.getFunction('changeNavTitle')('Games');
-        let games = [];
+    // async componentDidMount() {
+    //     stateService.getFunction('changeNavTitle')('Games');
+    //     let games = [];
 
-        try {
-            const response = await apiService.sendRequest('/games', 'GET');
-            games = response.data.data;
-        } catch (err) {
-            console.error(err);
-            stateService.getFunction('showNotification')('error', 'Error', 'The game list was not able to load correctly');
-        }
+    //     try {
+    //         const response = await apiService.sendRequest('/games', 'GET');
+    //         games = response.data.data;
+    //     } catch (err) {
+    //         console.error(err);
+    //         stateService.getFunction('showNotification')('error', 'Error', 'The game list was not able to load correctly');
+    //     }
 
-        this.setState({ games });
+    //     this.setState({ games });
+    // }
+
+    componentDidMount () {
+        stateService.getFunction('fetchGameList')();
     }
 
     goToGameForm () {
@@ -37,8 +41,8 @@ class Games extends Component {
     }
 
     render() {
+        const games = stateService.getData('games');
         const isAdmin = authService.isCurrentUserAdmin();
-        console.log(isAdmin);
         const addBtnClasses = isAdmin ? 'add-game-btn' : 'add-game-btn hide-add-game-btn';
 
         return (
@@ -47,7 +51,7 @@ class Games extends Component {
                     <AddIcon />
                 </Button>
                 <div className="row text-center text-lg-left">
-                    { this.state.games.map(game => <GameTile title={game.name} url={game.image} key={game.id} />) }
+                    { games.map(game => <GameTile title={game.name} url={game.image} key={game.id} />) }
                 </div>
             </div>
         );
