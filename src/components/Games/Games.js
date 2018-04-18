@@ -17,21 +17,6 @@ class Games extends Component {
         this.state = { addBtnClasses: 'add-game-btn hide-add-game-btn', games: [] };
     }
 
-    // async componentDidMount() {
-    //     stateService.getFunction('changeNavTitle')('Games');
-    //     let games = [];
-
-    //     try {
-    //         const response = await apiService.sendRequest('/games', 'GET');
-    //         games = response.data.data;
-    //     } catch (err) {
-    //         console.error(err);
-    //         stateService.getFunction('showNotification')('error', 'Error', 'The game list was not able to load correctly');
-    //     }
-
-    //     this.setState({ games });
-    // }
-
     componentDidMount () {
         stateService.getFunction('fetchGameList')();
     }

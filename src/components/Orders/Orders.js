@@ -20,7 +20,7 @@ class Orders extends Component {
             this.setState({ orders: response.data.data });
         } catch (err) {
             console.error(err);
-            stateService.getFunction('showNotification')('error', 'Error', 'Action is forbidden');
+            stateService.getFunction('showNotification')('error', 'Error', err.response.data.message);
             this.props.history.replace('/');
         }
     }

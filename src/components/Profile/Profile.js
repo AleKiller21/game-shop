@@ -40,8 +40,8 @@ class Profile extends Component {
         const body = { id, address, email, gamertag, first_name: firstName, last_name: lastName, profile_picture: profilePicture };
 
         try {
-            await apiService.sendRequest('/user/update', 'POST', body);
-            stateService.getFunction('showNotification')('success', 'Profile Updated', 'Your profile has been updated');
+            const response = await apiService.sendRequest('/user', 'PUT', body);
+            stateService.getFunction('showNotification')('success', 'Profile Updated', response.data.message);
         } catch (err) {
             console.error(err.response.data.message);
             stateService.getFunction('showNotification')('error', 'Update failed', err.response.data.message);
@@ -147,7 +147,7 @@ class Profile extends Component {
                             </a>
                         </div>
                         <div className="card-body">
-                            <h6 className="card-category text-gray">{firstName}</h6>
+                            <h6 className="card-category text-gray">{firstName} {lastName}</h6>
                             <h4 className="card-title">{gamertag}</h4>
                             <p className="card-description" />
                         </div>

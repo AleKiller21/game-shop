@@ -35,7 +35,7 @@ class GameForm extends Component {
 
         } catch (err ) {
             console.error(err);
-            stateService.getFunction('showNotification')('error', 'Error', 'An error has ocurred');
+            stateService.getFunction('showNotification')('error', 'Error', err.response.data.message);
         }
     }
 
@@ -48,19 +48,20 @@ class GameForm extends Component {
             const action = this.props.match.params.name ? 'edit' : 'add';
 
             if (action === 'add') {
-                const response = await apiService.sendRequest('/game/add', 'POST', body);
-                stateService.getFunction('showNotification')('success', 'Success', 'Game has been added');
+                const response = await apiService.sendRequest('/game', 'POST', body);
+                stateService.getFunction('showNotification')('success', 'Success', response.data.message);
             } else {
                 body.id = this.state.id;
-                const response = await apiService.sendRequest('/game/update', 'POST', body);
-                stateService.getFunction('showNotification')('success', 'Success', 'Changes have been applied');
+                const response = await apiService.sendRequest('/game', 'PUT', body);
+                console.log(response.data.message);
+                stateService.getFunction('showNotification')('success', 'Success', response.data.message);
             }
 
             this.props.history.push('/store');
 
         } catch (err) {
             console.error(err.response);
-            stateService.getFunction('showNotification')('error', 'Error', 'An error has ocurred');
+            stateService.getFunction('showNotification')('error', 'Error', err.response.data.message);
         }
     }
 

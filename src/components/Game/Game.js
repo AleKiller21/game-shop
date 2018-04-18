@@ -67,16 +67,15 @@ class Game extends Component {
         const body = { id: this.state.id };
 
         try {
-            const result = await apiService.sendRequest('/game/delete', 'POST', body);
+            const result = await apiService.sendRequest(`/game/${this.state.id}`, 'DELETE', body);
             this.handleClose();
             stateService.getFunction('showNotification')('success', 'Success', `${this.state.name} has been deleted`);
             this.props.history.replace('/store');
 
         } catch (err) {
             console.error(err);
-            console.log('entro');
             this.handleClose();
-            stateService.getFunction('showNotification')('error', 'Error', 'The game could not be deleted');
+            stateService.getFunction('showNotification')('error', 'Error', err.response.data.message);
         }
     }
 
@@ -86,8 +85,8 @@ class Game extends Component {
         try {
             const userId = authService.getTokenPayload().id;
             const body = { game_id: id, user_id: userId, total: price };
-            await apiService.sendRequest('/order/add', 'POST', body);
-            stateService.getFunction('showNotification')('success', 'Success', `Order completed successfully`);
+            const response = await apiService.sendRequest('/order', 'POST', body);
+            stateService.getFunction('showNotification')('success', 'Success', response.data.message);
             this.props.history.push('/orders');
         } catch (err) {
             console.error(err);

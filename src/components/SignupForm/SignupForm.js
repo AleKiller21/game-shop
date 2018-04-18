@@ -55,12 +55,12 @@ class SignupForm extends Component {
         const body = { first_name: firstName, last_name: lastName, email, address, gamertag, profile_picture: profilePicture, password };
 
         try {
-            await apiService.sendRequest('/user/add', 'POST', body);
-            stateService.getFunction('showNotification')('success', 'Success', 'The user has been created');
+            const response = await apiService.sendRequest('/user', 'POST', body);
+            stateService.getFunction('showNotification')('success', 'Success', response.data.message);
             this.props.redirectLogin(null);
         } catch (err) {
             console.error(err);
-            stateService.getFunction('showNotification')('error', 'Error', err.response.data);
+            stateService.getFunction('showNotification')('error', 'Error', err.response.data.message);
         }
     }
 
